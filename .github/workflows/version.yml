@@ -22,6 +22,15 @@ jobs:
         with:
           persist-credentials: false
           ref: ${{ github.event.client_payload.branch }}
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_committer_name: ${{ secrets.GIT_USER_NAME }}
+          git_committer_email: ${{ secrets.GIT_USER_EMAIL }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Setup Git config
         env:
           GH_USER: ${{ secrets.GH_USER }}
@@ -33,15 +42,6 @@ jobs:
           git remote set-url --push origin "https://${GH_USER}:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git config user.name "$GIT_USER_NAME"
           git config user.email "$GIT_USER_EMAIL"
-      - name: Import GPG key
-        uses: crazy-max/ghaction-import-gpg@v5
-        with:
-          git_user_signingkey: true
-          git_commit_gpgsign: true
-          git_committer_name: ${{ secrets.GIT_USER_NAME }}
-          git_committer_email: ${{ secrets.GIT_USER_EMAIL }}
-          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       - name: Setup
         uses: ./.github/actions/setup
       - name: Cut ${{ github.event.inputs.version }}${{ github.event.client_payload.version }} version
