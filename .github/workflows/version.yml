@@ -60,9 +60,6 @@ jobs:
           git add .
           git commit --sign -m "${VERSION}"
           git tag --sign "v${VERSION}" -m "${VERSION}"
+          git push --follow-tags
         env:
           VERSION: ${{ steps.meta.outputs.version }}
-      - name: Push
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GH_TOKEN }}
