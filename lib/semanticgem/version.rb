@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module SemanticGem
-  VERSION = "1.11.5"
+  VERSION = "1.12.0"
 end
