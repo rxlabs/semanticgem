@@ -26,4 +26,4 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           event-type: version
-          client-payload: '{"version": "${{ steps.release.outputs.new_release_version }}", "branch": "${{ github.ref }}"}'
+          client-payload: '{"version": "${{ steps.release.outputs.new_release_version }}", "branch": "${{ github.ref_name }}"}'
