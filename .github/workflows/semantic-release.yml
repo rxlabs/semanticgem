@@ -10,6 +10,8 @@ jobs:
   version:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      version: ${{ steps.release.outputs.new_release_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -20,10 +22,53 @@ jobs:
         uses: cycjimmy/semantic-release-action@v3
         with:
           semantic_version: '^19.0.0'
-      - name: Release version ${{ steps.release.outputs.new_release_version }} on ${{ github.ref_name }}
-        uses: peter-evans/repository-dispatch@v2
-        if: ${{ steps.release.outputs.new_release_published == 'true' }}
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: version
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GH_TOKEN }}
-          event-type: version
-          client-payload: '{"version": "${{ steps.release.outputs.new_release_version }}", "branch": "${{ github.ref_name }}"}'
+          persist-credentials: false
+      - name: Setup Git config
+        env:
+          GH_USER: ${{ secrets.GH_USER }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
+          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
+        run: |
+          git remote set-url --push origin "https://${GH_USER}:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config user.name "$GIT_USER_NAME"
+          git config user.email "$GIT_USER_EMAIL"
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v5
+        with:
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+          git_committer_name: ${{ secrets.GIT_USER_NAME }}
+          git_committer_email: ${{ secrets.GIT_USER_EMAIL }}
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+      - name: Setup
+        uses: ./.github/actions/setup
+      - name: Cut ${{ needs.version.outputs.version }} version
+        run: bundle exec gem bump --no-commit --version ${{ needs.version.outputs.version }}
+      - name: Update Gemfile.lock
+        run: |
+          bundle config set --local deployment 'false'
+          bundle install
+      - name: Get meta
+        id: meta
+        run: |
+          version=$(bundle exec parse-gemspec-cli parse semanticgem.gemspec | jq -r .version)
+          echo "version=${version}" >> $GITHUB_OUTPUT
+      - name: Tag ${{ needs.version.outputs.version }} version
+        run: |
+          git add .
+          git commit --sign -m "${VERSION}"
+          git tag --sign "v${VERSION}" -m "${VERSION}"
+          git push --follow-tags
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
