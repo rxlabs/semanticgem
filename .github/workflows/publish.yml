@@ -27,7 +27,7 @@ jobs:
           git checkout "${SHA}~"
           mkdir tmp
           outfile=tmp/changelog.txt
-          echo "path=${outfile}" >> $GITHUB_OUTPUT
+          echo "outfile=${outfile}" >> $GITHUB_OUTPUT
           npx conventional-changelog-cli@^2.0.0 --outfile $outfile
         env:
           SHA: ${{ github.sha }}
