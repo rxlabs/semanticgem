@@ -25,14 +25,16 @@ jobs:
         id: changelog
         run: |
           git checkout "${SHA}~"
-          body=$(npx conventional-changelog-cli@^2.0.0)
-          echo "body=${body}" >> $GITHUB_OUTPUT
+          mkdir tmp
+          outfile=tmp/changelog.txt
+          echo "path=${outfile}" >> $GITHUB_OUTPUT
+          npx conventional-changelog-cli@^2.0.0 --outfile $outfile
         env:
           SHA: ${{ github.sha }}
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
-          body: ${{ steps.changelog.outputs.body }}
+          body_path: ${{ github.workspace }}/${{ steps.changelog.outputs.outfile }}
           files: pkg/*
           fail_on_unmatched_files: true
           prerelease: ${{ contains(github.head_ref_name, '-') }}
