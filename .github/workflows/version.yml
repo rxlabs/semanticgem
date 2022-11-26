@@ -19,13 +19,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        if: "${{ github.event.inputs.ref == '' }}"
+        if: "${{ github.event.client_payload.ref == '' }}"
         with:
           persist-credentials: false
           ref: ${{ github.ref}}
       - name: Checkout Ref
         uses: actions/checkout@v3
-        if: "${{ github.event.inputs.ref != '' }}"
+        if: "${{ github.event.client_payload.ref != '' }}"
         with:
           persist-credentials: false
       - name: Setup Git config
