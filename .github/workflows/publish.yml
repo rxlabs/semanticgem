@@ -28,7 +28,7 @@ jobs:
           mkdir tmp
           outfile=tmp/changelog.txt
           echo "outfile=${outfile}" >> $GITHUB_OUTPUT
-          npx conventional-changelog-cli@^2.0.0 | sed -e '1,2d' > $outfile
+          npx standard-changelog@^2.0.0 --release-count 1 --infile $outfile --outfile t $outfile
         env:
           SHA: ${{ github.sha }}
       - name: Create GitHub release
