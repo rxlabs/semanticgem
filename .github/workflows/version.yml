@@ -49,7 +49,6 @@ jobs:
           git add .
           git commit --sign -m "${VERSION}"
           git tag --sign "v${VERSION}" -m "${VERSION}"
-          git push
-          git push --tags
+          git push --follow-tags
         env:
           VERSION: ${{ steps.meta.outputs.version }}
