@@ -20,7 +20,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          persist-credentials: false
+          token: ${{ secrets.GH_TOKEN }}
           ref: ${{ github.event.client_payload.branch }}
       - name: Import GPG key
         uses: crazy-max/ghaction-import-gpg@v5
@@ -31,17 +31,6 @@ jobs:
           git_committer_email: ${{ secrets.GIT_USER_EMAIL }}
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
-      - name: Setup Git config
-        env:
-          GH_USER: ${{ secrets.GH_USER }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GIT_USER_NAME: ${{ secrets.GIT_USER_NAME }}
-          GIT_USER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
-          GIT_COMMITTER_EMAIL: ${{ secrets.GIT_USER_EMAIL }}
-        run: |
-          git remote set-url --push origin "https://${GH_USER}:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
-          git config user.name "$GIT_USER_NAME"
-          git config user.email "$GIT_USER_EMAIL"
       - name: Setup
         uses: ./.github/actions/setup
       - name: Cut ${{ github.event.inputs.version }}${{ github.event.client_payload.version }} version

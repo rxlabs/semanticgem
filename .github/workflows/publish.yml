@@ -33,6 +33,7 @@ jobs:
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
+          token: ${{ secrets.GH_TOKEN }}
           body_path: ${{ github.workspace }}/${{ steps.changelog.outputs.outfile }}
           files: pkg/*
           fail_on_unmatched_files: true
