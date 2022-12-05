@@ -7,18 +7,33 @@ on:
       - v*
 
 jobs:
-  release:
+  artifacts:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - name: Setup
         uses: ./.github/actions/setup
       - name: Build
         run: bundle exec rake build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ github.ref_name }}
+          path: |
+            pkg/
+  release:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: artifacts
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
       - name: Setup Node.js
         uses: actions/setup-node@v3
       - name: Generate release notes
@@ -29,12 +44,12 @@ jobs:
           echo "outfile=${outfile}" >> $GITHUB_OUTPUT
           npx standard-changelog@^2.0.0 --release-count 2 --infile $outfile.tmp --outfile $outfile.tmp
           sed '1,7d' $outfile.tmp > $outfile
-
       - name: Create GitHub release
         uses: softprops/action-gh-release@v1
         with:
           token: ${{ secrets.GH_TOKEN }}
           body_path: ${{ github.workspace }}/${{ steps.changelog.outputs.outfile }}
-          files: pkg/*
+          files: |
+            ${{ github.ref_name }}/pkg/*
           fail_on_unmatched_files: true
           prerelease: ${{ contains(github.ref_name, '-') }}
