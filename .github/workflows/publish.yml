@@ -22,7 +22,7 @@ jobs:
         with:
           name: ${{ github.sha }}
           path: |
-            pkg/
+            pkg/*
   release:
     runs-on: ubuntu-latest
     timeout-minutes: 30
