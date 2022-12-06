@@ -56,7 +56,7 @@ jobs:
       - name: Generate release notes
         run: |
           npx standard-changelog@^2.0.0 --release-count 2 --infile CHANGELOG.md --outfile CHANGELOG.md.tmp
-          sed '1,8d' CHANGELOG.md.tmp > CHANGELOG.md
+          sed '1,4d' CHANGELOG.md.tmp > CHANGELOG.md
           git add CHANGELOG.md
           git commit --amend --sign -m "${VERSION}"
           git tag -d v${VERSION}
