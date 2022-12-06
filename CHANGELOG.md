@@ -1,3 +1,12 @@
+# [2.5.0](https://github.com/rxlabs/semanticgem/compare/00979dfca22c7c5459e5e26b6e70a3622b33dc58...v2.5.0) (2022-12-06)
+
+
+### Features
+
+* Did the thing ([00979df](https://github.com/rxlabs/semanticgem/commit/00979dfca22c7c5459e5e26b6e70a3622b33dc58))
+
+
+
 ## [2.4.6](https://github.com/rxlabs/semanticgem/compare/310b9d177a57ff6db4a546ed241580eab13ab775...v2.4.6) (2022-12-06)
 
 
