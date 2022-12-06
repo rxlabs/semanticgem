@@ -49,6 +49,15 @@ jobs:
           git add .
           git commit --sign -m "${VERSION}"
           git tag --sign "v${VERSION}" -m "${VERSION}"
-          git push --follow-tags
         env:
           VERSION: ${{ steps.meta.outputs.version }}
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+      - name: Generate release notes
+        run: |
+          npx conventional-changelog-cli@^2.0.0 --append --same-file --release-count 1 --infile CHANGELOG.md
+          git add .
+          git commit --amend --sign -m "${VERSION}"
+          git tag -d v${VERSION}
+          git tag --sign "v${VERSION}" -m "${VERSION}"
+          git push --follow-tags
