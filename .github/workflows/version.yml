@@ -61,3 +61,5 @@ jobs:
           git tag -d v${VERSION}
           git tag --sign "v${VERSION}" -m "${VERSION}"
           git push --follow-tags
+        env:
+          VERSION: ${{ steps.meta.outputs.version }}
