@@ -1,3 +1,12 @@
+## [2.4.6](https://github.com/rxlabs/semanticgem/compare/310b9d177a57ff6db4a546ed241580eab13ab775...v2.4.6) (2022-12-06)
+
+
+### Bug Fixes
+
+* CL sed command ([310b9d1](https://github.com/rxlabs/semanticgem/commit/310b9d177a57ff6db4a546ed241580eab13ab775))
+
+
+
 
 * use standard-changelog ([3e9c70a](https://github.com/rxlabs/semanticgem/commit/3e9c70a40f23fb3e7976856d966dcc286c11de5b))
 
