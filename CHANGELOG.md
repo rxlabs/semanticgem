@@ -1,3 +1,8 @@
+
+* use standard-changelog ([3e9c70a](https://github.com/rxlabs/semanticgem/commit/3e9c70a40f23fb3e7976856d966dcc286c11de5b))
+
+
+
 ## [2.4.3](https://github.com/rxlabs/semanticgem/compare/v2.4.2...v2.4.3) (2022-12-06)
 
 
