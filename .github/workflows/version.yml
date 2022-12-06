@@ -55,8 +55,9 @@ jobs:
         uses: actions/setup-node@v3
       - name: Generate release notes
         run: |
-          npx conventional-changelog-cli@^2.0.0 --append --same-file --release-count 1 --infile CHANGELOG.md
-          git add .
+          npx standard-changelog@^2.0.0 --release-count 2 --infile CHANGELOG.md --outfile CHANGELOG.md.tmp
+          sed '1,8d' CHANGELOG.md.tmp > CHANGELOG.md
+          git add CHANGELOG.md
           git commit --amend --sign -m "${VERSION}"
           git tag -d v${VERSION}
           git tag --sign "v${VERSION}" -m "${VERSION}"
