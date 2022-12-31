@@ -1,5 +1,7 @@
 ---
-name: publish
+name: Publish version
+
+run-name: Publish ${{ github.ref_name }}
 
 on:
   push:
@@ -8,6 +10,7 @@ on:
 
 jobs:
   artifacts:
+    name: Build artifacts
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -24,6 +27,7 @@ jobs:
           path: |
             pkg/
   release:
+    name: GitHub Releases
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: artifacts
@@ -55,4 +59,24 @@ jobs:
           files: |
             pkg/*
           fail_on_unmatched_files: true
-          prerelease: ${{ contains(github.ref_name, '-') }}
+          prerelease: ${{ contains(github.ref_name, 'pre') }}
+  rubygems:
+    name: RubyGems.org
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup
+        uses: ./.github/actions/setup
+  github:
+    name: GitHub Packages
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      packages: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup
+        uses: ./.github/actions/setup
