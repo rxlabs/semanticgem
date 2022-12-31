@@ -1,3 +1,12 @@
+# [2.8.0](https://github.com/rxlabs/semanticgem/compare/91457f6628f34c2f877baf0f79e2fa606d243b19...v2.8.0) (2022-12-31)
+
+
+### Features
+
+* Try publish to GH ([91457f6](https://github.com/rxlabs/semanticgem/commit/91457f6628f34c2f877baf0f79e2fa606d243b19))
+
+
+
 # [2.7.0](https://github.com/rxlabs/semanticgem/compare/821cc356655fa5b56928be2697fe1607243ce9d1...v2.7.0) (2022-12-31)
 
 
