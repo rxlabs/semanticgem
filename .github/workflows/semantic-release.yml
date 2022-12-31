@@ -1,6 +1,8 @@
 ---
 name: Semantic release
 
+run-name: Semantic release ${{ github.ref_name }}
+
 on:
   push:
     branches:
