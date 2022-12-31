@@ -1,3 +1,7 @@
+# 2.6.0 (2022-12-31)
+
+
+
 # [2.5.0](https://github.com/rxlabs/semanticgem/compare/00979dfca22c7c5459e5e26b6e70a3622b33dc58...v2.5.0) (2022-12-06)
 
 
