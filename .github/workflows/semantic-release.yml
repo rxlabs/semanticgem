@@ -1,7 +1,7 @@
 ---
 name: Semantic release
 
-run-name: Semantic release from ${{ github.ref_name }}
+run-name: Semantic release off ${{ github.ref_name }}
 
 on:
   push:
