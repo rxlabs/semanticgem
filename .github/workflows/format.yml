@@ -6,9 +6,6 @@ on:
     branches:
       - master
   workflow_dispatch: {}
-  repository_dispatch:
-    types:
-      - format
 
 jobs:
   fix:
@@ -35,6 +32,7 @@ jobs:
         run: bundle exec rake format
       - name: Commit
         uses: stefanzweifel/git-auto-commit-action@v4
+        if: always()
         with:
           commit_message: Run format
           commit_user_name: ${{ secrets.GIT_USER_NAME }}
