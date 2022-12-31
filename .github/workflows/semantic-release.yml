@@ -33,8 +33,8 @@ jobs:
     if: ${{ needs.semantic.outputs.new_release_published == 'true' }}
     steps:
       - name: Release version ${{ steps.release.outputs.new_release_version }} on ${{ github.ref_name }}
-        uses: peter-evans/repository-dispatch@v2
-        with:
-          token: ${{ secrets.GH_TOKEN }}
-          event-type: version
-          client-payload: '{"version": "${{ needs.semantic.outputs.new_release_version }}", "branch": "${{ github.ref_name }}"}'
+        run: gh workflow run version.yml --raw-field version=$VERSION --ref $BRANCH
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          VERSION: ${{ needs.semantic.outputs.new_release_version }}
+          BRANCH: ${{ github.ref_name }}
