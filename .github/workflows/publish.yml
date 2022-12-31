@@ -40,7 +40,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.sha }}
-          path: pkg/
+          path: |
+            pkg/
       - name: Setup Node.js
         uses: actions/setup-node@v3
       - name: Generate release notes
