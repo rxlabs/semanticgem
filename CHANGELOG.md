@@ -1,3 +1,12 @@
+## [2.8.1](https://github.com/rxlabs/semanticgem/compare/91a0ba5324f01bbdad72b0d2a152b6b5d7847e15...v2.8.1) (2022-12-31)
+
+
+### Bug Fixes
+
+* Pass missing args ([91a0ba5](https://github.com/rxlabs/semanticgem/commit/91a0ba5324f01bbdad72b0d2a152b6b5d7847e15))
+
+
+
 # [2.8.0](https://github.com/rxlabs/semanticgem/compare/91457f6628f34c2f877baf0f79e2fa606d243b19...v2.8.0) (2022-12-31)
 
 
