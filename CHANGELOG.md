@@ -1,3 +1,12 @@
+## [2.8.2](https://github.com/rxlabs/semanticgem/compare/f13cf95399e1ed3fa81771af7646911192e30d49...v2.8.2) (2022-12-31)
+
+
+### Bug Fixes
+
+* Remove name from CI ([f13cf95](https://github.com/rxlabs/semanticgem/commit/f13cf95399e1ed3fa81771af7646911192e30d49))
+
+
+
 ## [2.8.1](https://github.com/rxlabs/semanticgem/compare/91a0ba5324f01bbdad72b0d2a152b6b5d7847e15...v2.8.1) (2022-12-31)
 
 
