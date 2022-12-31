@@ -7,9 +7,13 @@ on:
       - '**'
 
 jobs:
-  version:
+  semantic:
+    name: Determine version
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    outputs:
+      new_release_published: ${{ steps.release.outputs.new_release_published }}
+      new_release_version: ${{ steps.release.outputs.new_release_version }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -21,10 +25,16 @@ jobs:
         with:
           dry_run: true
           semantic_version: '^19.0.0'
+  release:
+    name: Release version
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: semantic
+    if: ${{ needs.semantic.outputs.new_release_published == 'true' }}
+    steps:
       - name: Release version ${{ steps.release.outputs.new_release_version }} on ${{ github.ref_name }}
         uses: peter-evans/repository-dispatch@v2
-        if: ${{ steps.release.outputs.new_release_published == 'true' }}
         with:
           token: ${{ secrets.GH_TOKEN }}
           event-type: version
-          client-payload: '{"version": "${{ steps.release.outputs.new_release_version }}", "branch": "${{ github.ref_name }}"}'
+          client-payload: '{"version": "${{ needs.semantic.outputs.new_release_version }}", "branch": "${{ github.ref_name }}"}'
