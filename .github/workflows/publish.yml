@@ -70,7 +70,7 @@ jobs:
        host: https://rubygems.org
        key: rubygems
        token: ${{ secrets.RUBYGEMS_API_KEY }}
-       artifact_path: ${{ env.artifact_path }}
+       artifact_path: 'pkg/*'
   github:
     name: GitHub Packages
     uses: ./.github/workflows/publish-gem.yml
@@ -81,4 +81,4 @@ jobs:
        host: https://rubygems.pkg.github.com/${{ github.repository_owner }}
        key: github
        token: ${{ secrets.GITHUB_TOKEN }}
-       artifact_path: ${{ env.artifact_path }}
+       artifact_path: 'pkg/*'
