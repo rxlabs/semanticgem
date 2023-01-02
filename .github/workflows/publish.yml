@@ -8,6 +8,9 @@ on:
     tags:
       - v*
 
+env:
+  artifact_path: pkg
+
 jobs:
   artifacts:
     name: Build artifacts
@@ -24,8 +27,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ${{ github.sha }}
-          path: |
-            pkg/
+          if-no-files-found: error
+          path: ${{ env.artifact_path }}/
   release:
     name: GitHub Releases
     runs-on: ubuntu-latest
@@ -40,8 +43,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ${{ github.sha }}
-          path: |
-            pkg/
+          path: ${{ env.artifact_path }}/
       - name: Setup Node.js
         uses: actions/setup-node@v3
       - name: Generate release notes
@@ -57,53 +59,26 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN }}
           body_path: ${{ github.workspace }}/${{ steps.changelog.outputs.outfile }}
-          files: |
-            pkg/*
+          files: ${{ env.artifact_path }}/*
           fail_on_unmatched_files: true
           prerelease: ${{ contains(github.ref_name, 'pre') }}
   rubygems:
     name: RubyGems.org
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    uses: ./.github/workflows/publish-gem.yml
     needs: artifacts
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ github.sha }}
-          path: |
-            pkg/
+    secrets:
+       host: https://rubygems.org
+       key: rubygems
+       token: ${{ secrets.RUBYGEMS_API_KEY }}
+       artifact_path: ${{ env.artifact_path }}
   github:
     name: GitHub Packages
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    uses: ./.github/workflows/publish-gem.yml
     permissions:
       packages: write
     needs: artifacts
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup
-        uses: ./.github/actions/setup
-      - name: Setup credentials
-        run: |
-          mkdir -p ~/.gem
-          echo ":github: Bearer $TOKEN" > ~/.gem/credentials
-          chmod 600 ~/.gem/credentials
-        env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: ${{ github.sha }}
-          path: |
-            pkg/
-      - name: Publish
-        run: bundle exec gem push --key $GEM_RELEASE_KEY --host $GEM_RELEASE_HOST pkg/*
-        env:
-          GEM_RELEASE_KEY: github
-          GEM_RELEASE_HOST: https://rubygems.pkg.github.com/${{ github.repository_owner }}
+    secrets:
+       host: https://rubygems.pkg.github.com/${{ github.repository_owner }}
+       key: github
+       token: ${{ secrets.GITHUB_TOKEN }}
+       artifact_path: ${{ env.artifact_path }}
