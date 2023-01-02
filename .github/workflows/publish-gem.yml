@@ -35,7 +35,7 @@ jobs:
         uses: ./.github/actions/setup
         with:
           install_dependencies: false
-          gem_credentials: ':rubygems: ${{ secrets.token }}'
+          gem_credentials: ':${{ inputs.key }}: ${{ secrets.token }}'
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
