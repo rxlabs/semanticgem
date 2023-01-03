@@ -75,8 +75,6 @@ jobs:
   github:
     name: GitHub Packages
     uses: ./.github/workflows/publish-gem.yml
-    permissions:
-      packages: write
     needs: artifacts
     with:
        host: https://rubygems.pkg.github.com/${{ github.repository_owner }}
