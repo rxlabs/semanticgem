@@ -83,4 +83,4 @@ jobs:
        key: github
        artifact_path: pkg
     secrets:
-       token: ${{ secrets.GH_TOKEN }}
+       token: ${{ secrets.GITHUB_TOKEN }}
