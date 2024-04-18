@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
-require_relative "lib/makenew-rbgem/version"
+require_relative "lib/semanticgem/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "makenew-rbgem"
-  spec.version = MakenewRbgem::VERSION
-  spec.author = "Evan Sosenko"
-  spec.email = "razorx@evansosenko.com"
+  spec.name = "semanticgem"
+  spec.version = SemanticGem::VERSION
+  spec.author = "Me"
+  spec.email = "gem@example.com"
 
-  spec.summary = "Ruby Gem Project Skeleton"
-  spec.description = "Project skeleton for a Ruby gem."
-  spec.homepage = "https://github.com/makenew/rbgem"
+  spec.summary = "My Gem"
+  spec.description = "sem gem"
+  spec.homepage = "https://github.com/rxlabs/semanticgem"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.1.0"
 
@@ -18,7 +18,7 @@ Gem::Specification.new do |spec|
   spec.metadata["source_code_uri"] = spec.homepage
   spec.metadata["bug_tracker_uri"] = "#{spec.metadata["source_code_uri"]}/issues"
   spec.metadata["changelog_uri"] = "#{spec.metadata["source_code_uri"]}/blob/main/CHANGELOG.md"
-  spec.metadata["github_repo"] = "git@github.com:makenew/rbgem.git"
+  spec.metadata["github_repo"] = "git@github.com:rxlabs/semanticgem.git"
 
   spec.bindir = "bin"
   spec.executables = spec.files.grep(%r{\A#{spec.bindir}/}) { |f| File.basename(f) }
