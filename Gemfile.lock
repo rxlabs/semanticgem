@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    semanticgem (4.0.0)
+    semanticgem (5.0.0)
 
 GEM
   remote: https://rubygems.org/
